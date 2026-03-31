@@ -1,5 +1,7 @@
 from django.db import models
 
+
+# Question model
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField()
@@ -8,6 +10,7 @@ class Question(models.Model):
         return self.question_text
 
 
+# Choice model
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
@@ -17,10 +20,19 @@ class Choice(models.Model):
         return self.choice_text
 
 
+# Enrollment model (ADDED as required)
+class Enrollment(models.Model):
+    user = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.user
+
+
+# Submission model (FIXED ✅)
 class Submission(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    selected_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Submission for {self.question}"
+        return f"Submission {self.id}"

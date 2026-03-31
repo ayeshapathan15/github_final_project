@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 app_name = 'onlinecourse'
 
 urlpatterns = [
@@ -18,3 +19,9 @@ urlpatterns = [
         name='exam_result'
     ),
 ]
+
+urlpatterns = [
+    path('submit/<int:question_id>/', views.submit, name='submit'),
+    path('result/<int:question_id>/', views.show_exam_result, name='result'),
+]
+
